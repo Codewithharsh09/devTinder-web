@@ -1,26 +1,26 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import NavBar from "./navbar"
-import Body from "./body"
-import Login from "./login"
-import Profile from "./profile"
+import Body from "./components/body"
+import Login from "./components/login"
+import Profile from "./components/profile"
+import { Provider } from "react-redux"
+import appStore from "./utils/appStore"
+import Feed from "./components/Feed"
 
 function App() {
 
   return (
     <>
-      <BrowserRouter basename="/">
-        <Routes>
-          <Route path="/" element={<Body/>}>
-           <Route path="/login" element={<Login/>}/>
-             <Route path="/profile" element={<Profile/>}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Provider store={appStore}>
+        <BrowserRouter basename="/">
+          <Routes>
+            <Route path="/" element={<Body />}>
+              <Route path="/feed" element={< Feed/>} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     </>
 
   )
