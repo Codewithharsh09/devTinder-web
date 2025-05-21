@@ -8,21 +8,23 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
     const [emailId, setEmailId] = useState("kundan12@gmail.com");
     const [password, setPassword] = useState("Kundan12@12");
+    const [error,setError] = useState("");
     //Redux data store (by dispatch hook)
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
     const handleLogin = async () => {
         try {
-            const res = await axios.post(BASE_URL+"/login", {
+            const res = await axios.post(BASE_URL + "/login", {
                 emailId,
                 password
             },
                 { withCredentials: true })//save token in application cookies
             dispatch(addUser(res.data));
-            return navigate("/feed")
+            localStorage.setItem("firstName",res.data.firstName)
+            return navigate("/feed");
         } catch (error) {
-            console.log("ERROR:", error.message)
+            setError(error?.response?.data || "Something went wrong")
         }
     }
     return (
@@ -49,6 +51,7 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)} />
                         </label>
                     </div>
+                    <p className="text-red-500">{error}</p>
                     <div className="card-actions justify-center m-3">
                         <button className="btn btn-primary" onClick={handleLogin}>Login</button>
                     </div>
